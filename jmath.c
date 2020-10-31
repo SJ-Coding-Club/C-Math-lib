@@ -1,6 +1,7 @@
 // Rough implementation of a C Math library, for educational purposes 
 
 #define PI 3.14159265358979323846264338327950;
+#define E 2.7182818284590452353602874713527;
 
 // Returns |x| (absolute value of x)
 double abs(double x) {
@@ -25,6 +26,24 @@ double pow(double a, double b) {
         return a * pow(a, b-1);
     }
 }
+
+// calculate natural log of x using taylor series
+// https://en.wikipedia.org/wiki/Logarithm#Power_series - Implemented from 'More efficient series'
+// Converges very slowly, have to rewrite this function :P
+double ln(double x) {
+    double sum = 0;
+    for (int k = 0; k < 100; k++) {
+        sum += (1.0 / (2 * k + 1)) * pow((x -  1) / (x + 1), 2 * k + 1);
+    }
+    return 2 * sum;
+}
+
+// returns logb n
+// Remember: logb a = ln(a)/ln(b)
+double log(double base, double n) {
+    return ln(n) / ln(base);
+}
+
 
 // Rounds floating number 'num' to 'places' places.
 double round(double num, int places) {
@@ -81,6 +100,6 @@ double tan(double radians) {
 }
 
 int main() {
-    // printf("%f", tan(0.5));
+    printf("%f", pow(409,.14));
     return 0;
 }
