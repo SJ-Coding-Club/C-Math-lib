@@ -1,7 +1,7 @@
 // Rough implementation of a C Math library, for educational purposes 
 
-#define PI 3.14159265358979323846264338327950;
-#define E 2.7182818284590452353602874713527;
+#define PI 3.14159265358979323846264338327950
+#define E 2.7182818284590452353602874713527
 
 // Returns |x| (absolute value of x)
 double abs(double x) {
@@ -44,10 +44,22 @@ double log(double base, double n) {
     return ln(n) / ln(base);
 }
 
+// Truncates 'number' to 'places' decimal places
+double truncate(double number, int places) {
+    return ((int) (number * pow(10, places))) / pow(10, places); 
+}
 
 // Rounds floating number 'num' to 'places' places.
 double round(double num, int places) {
-    return ((int)(num * pow(10, places))) / pow(10, places);
+    return truncate(num + (1.0 / (2 * pow(10,places))), places);
+}
+
+double floor(double x) {
+    return (int) x;
+}
+
+double ceil(double x) {
+    return (int) x + 1;
 }
 
 // Recursive factorial function, returns x!.
@@ -99,7 +111,18 @@ double tan(double radians) {
     return sin(radians) / cos(radians);
 }
 
+double arcsin(double radians) {
+    if (abs(radians) > 1) {
+        return 1.0 / 0.0;
+    }
+    double sum = 0;
+    for (int n = 0; n < 50; n++) {
+        sum += (factorial(2 * n)) / (pow(4,n) * pow(factorial(n), 2) * (2 * n + 1)) * pow(radians, 2 * n + 1);
+    }
+    return sum;
+}
+
 int main() {
-    printf("%f", pow(409,.14));
+    printf("%f", round(10.3251,2));
     return 0;
 }
