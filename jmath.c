@@ -27,6 +27,31 @@ double pow(double a, double b) {
     }
 }
 
+// square root finder using Newton's method.
+// let a be the number we are looking for and x be the root of a
+// sqrt(a) = x
+// a = x^2
+// we are looking for a function with roots at x and -x, so we can say:
+// 0 = x^2 - a
+// f(x) = x^2 - a (if this part is confusing, imagine 'a' as 25 or 16)
+// f'(x) = 2x
+// By Newton's method, we can say:
+// x_n+1 = x_n - f(x)/f'(x)
+// when plugging the functions in, we get:
+// x_n+1 = x_n - (x_n^2 - a)/(2x_n)
+//       = x_n - (x_n - a/x_n)/2
+//       = 2(x_n)/2 - (x_n - a/x_n)/2
+//       = (x_n + a/x_n) / 2
+// now we can solve for x_300, by which point this should converge well
+// also, let x_1 = a 
+double newtons_method_sqrt(double a) {
+    double x_n = a;
+    for (int i = 0; i < 300; i++) {
+        x_n = (x_n + a / x_n) / 2.0;
+    }
+    return x_n;
+}
+
 // calculate natural log of x using taylor series
 // https://en.wikipedia.org/wiki/Logarithm#Power_series - Implemented from 'More efficient series'
 // Converges very slowly, have to rewrite this function :P
@@ -120,6 +145,12 @@ double arcsin(double radians) {
         sum += (factorial(2 * n)) / (pow(4,n) * pow(factorial(n), 2) * (2 * n + 1)) * pow(radians, 2 * n + 1);
     }
     return sum;
+}
+
+// differentiation of a function at a point
+double d_dx(double (*f) (double), double x) {
+    double h = 0.000000001;
+    return (f(x + h) - f(x)) / h;
 }
 
 int main() {
